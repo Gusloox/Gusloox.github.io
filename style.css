@@ -1,0 +1,16 @@
+.table{
+    background-color: gray;
+    min-height: 25%;
+
+}
+tr,td{
+    border: 1px solid black;
+    text-align: center;
+}
+td{
+    font-size: 40px;
+    color:white;
+}
+.container{
+    margin-top: 25%;
+}
