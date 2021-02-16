@@ -91,7 +91,6 @@ const displayController = (() => {
             alert("Draw");
             playerOne++;
             playerTwo++;
-            resetGrid();
             return;
         }
         handlePlayerChange();
