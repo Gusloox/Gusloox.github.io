@@ -1,15 +1,9 @@
 body{
     padding: 0px;
-    margin: 20px;
-}
+margin: 0px;}
 
-
-
-.container{
-    margin-top: 3%;
-}
 h3{
-    font-size: 70px;
+    font-size: 50px;
     font-weight: bold;
     color: rgb(100, 0, 0);
     text-align: center;
@@ -80,7 +74,7 @@ button{
     background-color:rgb(100, 0, 0);
     color:white;
     font-weight: bold;
-    font-size: 60px;
+    font-size: 40px;
     margin:10px auto;
     display:block;
 }
