@@ -1,8 +1,8 @@
-const table = document.createElement("table");
-table.setAttribute("class", "table table-dark");
+const table = document.createElement("div");
+table.setAttribute("class", "table");
 table.setAttribute("id", "table");
 
-document.querySelector(".container").appendChild(table);
+document.querySelector(".gameBoard").appendChild(table);
 
 
 
@@ -12,7 +12,8 @@ const Gameboard = (() => {
 })();
 
 let currentPlayer = "X";
-
+let playerOne = 0;
+let playerTwo = 0;
 
 const displayController = (() => {
     let gb = Array.from(Gameboard.gameboard);
@@ -28,33 +29,35 @@ const displayController = (() => {
     ];
     const createEmptyGrid = () => {
         let cnt = 0;
-        for (let row = 0; row < 3; row++) {
-            const tr = document.createElement("tr");
-            for (i = 0; i < 3; i++) {
-                const td = document.createElement("td");
-                td.setAttribute("class", "item");
-                td.setAttribute("id", "item" + row + i);
-                td.setAttribute("data-number", cnt);
-                tr.appendChild(td);
-                cnt++;
-            }
-            table.appendChild(tr);
+
+        for (i = 0; i < 9; i++) {
+            const td = document.createElement("div");
+            td.setAttribute("class", "item");
+            td.setAttribute("id", "block_" + i);
+            td.setAttribute("data-number", cnt);
+            table.appendChild(td);
+
+            cnt++;
         }
+
     };
     let updateGrid = (p) => {
-        
+
         //adds value to gameboard and changes the td's value
-        const clickIndex= parseInt(p.target.getAttribute('data-number'));
-        if (Gameboard.gameboard[clickIndex]!== '') { return; }
-        
+        const clickIndex = parseInt(p.target.getAttribute('data-number'));
+        if (Gameboard.gameboard[clickIndex] !== '') { return; }
+       
+
         //if it has value dont do anything
-        Gameboard.gameboard[clickIndex]=currentPlayer;
+        Gameboard.gameboard[clickIndex] = currentPlayer;
         p.target.innerHTML = currentPlayer;
 
 
-        
+
 
         resultValidation();
+        document.querySelector(".scorePlayerOne").innerText=playerOne;
+        document.querySelector(".scorePlayerTwo").innerText=playerTwo;
     };
     const resultValidation = () => {
         let roundWon = false;
@@ -72,49 +75,64 @@ const displayController = (() => {
             }
         }
         if (roundWon) {
-            alert(`${currentPlayer} Won!`);
+            if (currentPlayer === 'X') {
+                alert("Player 1 Won");
+                playerOne++;
+            }
+            else if (currentPlayer === 'O') {
+                alert("Player 2 Won");
+                playerTwo++;
+            }
+            
             resetGrid();
         }
         let roundDraw = !Gameboard.gameboard.includes("");
         if (roundDraw) {
-
+            alert("Draw");
+            playerOne++;
+            playerTwo++;
+            resetGrid();
             return;
         }
         handlePlayerChange();
     };
     let handlePlayerChange = () => {
-        if (currentPlayer==="X"){
-            currentPlayer='O';
-        }else{
-            currentPlayer='X';
+        if (currentPlayer === "X") {
+            currentPlayer = 'O';
+        } else {
+            currentPlayer = 'X';
         }
     }
 
 
     const resetGrid = () => {
-        resetTd = document.querySelectorAll("td");
+        resetGame = document.querySelectorAll("div[data-number]");
         for (let i = 0; i < 9; i++) {
-            resetTd[i].innerText = '';
+            resetGame[i].innerText = '';
             Gameboard.gameboard[i] = '';
         }
-        k = 0;
+        
     };
-    return { createEmptyGrid, updateGrid, resetGrid, resultValidation,handlePlayerChange };
+    const resetScore=()=>{
+        playerTwo=0;
+        playerOne=0;
+        document.querySelector(".scorePlayerOne").innerText=playerOne;
+        document.querySelector(".scorePlayerTwo").innerText=playerTwo;
+        resetGrid();
+    }
+    return { createEmptyGrid, updateGrid, resetGrid, resultValidation, handlePlayerChange, resetScore };
 })();
 displayController.createEmptyGrid();
 
- document.querySelectorAll('td').forEach(td => td.addEventListener('click', displayController.updateGrid));
+document.querySelectorAll('div[data-number]').forEach(td => td.addEventListener('click', displayController.updateGrid));
 
 
 const resetGrid = document.createElement('button');
-resetGrid.innerText = "Reset";
+resetGrid.innerText = "Reset Score";
 document.querySelector(".container").appendChild(resetGrid);
 
 resetGrid.addEventListener("click", () => {
-    displayController.resetGrid();
+    displayController.resetScore();
 });
 
 
-//done 1,2,3
-
-//to-do 4,5,6,7
