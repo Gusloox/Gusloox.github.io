@@ -83,16 +83,19 @@ const displayController = (() => {
                 alert("Player 2 Won");
                 playerTwo++;
             }
-            
             resetGrid();
+
         }
         let roundDraw = !Gameboard.gameboard.includes("");
         if (roundDraw) {
             alert("Draw");
             playerOne++;
             playerTwo++;
+            resetGrid();
+
             return;
         }
+
         handlePlayerChange();
     };
     let handlePlayerChange = () => {
